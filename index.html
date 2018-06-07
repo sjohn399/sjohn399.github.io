@@ -22,9 +22,14 @@
 
     <script src = "app/utils/fileReader/fileReader.module.js"></script>
     <script src = "app/utils/fileReader/fileReader.service.js"></script>
+
+    <link rel="stylesheet" href = "tsaproj.css">
   </head>
   <body>
-    <h1>KingOfTheHill</h1>
+    <div id = "toggleButtons">
+  		<button type = "button" onclick = "location.href='#cpm'">Average Claims Per Month</button>
+  		<button type = "button" onclick = "location.href='#vlpm'">Value Loss Per Month</button>
+  	</div>
     <div ng-view></div>
   </body>
 </html>

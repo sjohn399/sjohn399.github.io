@@ -3,37 +3,44 @@
 angular.module('graph')
   .factory('graph', ['fileReader', function(fileReader) {
 
+    //Labels
     var labels = ['Jan10', "Feb10", "Mar10", "Apr10", "May10", "Jun10", "Jul10", "Aug10", "Sep10", "Oct10", "Nov10", "Dec10",
     "Jan11", "Feb11", "Mar11", "Apr11", "May11", "Jun11", "Jul11", "Aug11", "Sep11", "Oct11", "Nov11", "Dec11",
     "Jan12", "Feb12", "Mar12", "Apr12", "May12", "Jun12", "Jul12", "Aug12", "Sep12", "Oct12", "Nov12", "Dec12",
     "Jan13", "Feb13", "Mar13", "Apr13", "May13", "Jun13", "Jul13", "Aug13", "Sep13", "Oct13", "Nov13", "Dec13"];
 
+
+    var series = [];                      //Series for graph
+    var listOfSeriesNames = [];           //List of series names (airline or airport)
+    var data = []                         //Data for graph
+    var lastClaimEntered = "N/A";         //Last claim entered
+    var rawData = fileReader.rawData;     //rawData from fileReader service
+
+
+    //Getter functions for respective variables
     var getLabels = function() {
         return labels;
     }
-
-    var series = [];
-
     var getSeries = function(){
       return series;
     };
-
-    var listOfSeriesNames = [];
-
     var getListOfSeriesNames = function() {
       return listOfSeriesNames;
     }
-
-    var data = []
-
     var getData = function() {
       return data;
     }
+    var getLastClaimEntered = function() {
+        return lastClaimEntered;
+    }
 
-    var rawData = fileReader.rawData;
 
-    //Calculate average
+    //Calculate averages
     function findAverage(seriesType) {
+
+      series = [];
+      data = [];
+      listOfSeriesNames = [];
 
       //Add average to the series
       series.push('Average');
@@ -52,19 +59,22 @@ angular.module('graph')
               //Get months
               var months = parseInt(month[0]);
 
-              // if (seriesType == 'airplane')
-              // {
+              //Get value based on graph
+              if (seriesType == 'airline')
+              {
                   var val = parseInt(entry[1]['value']);
-              // }
-              // else if (seriesType == 'airport')
-              // {
-              //     var val = 1;
-              // }
-              //Put val if statement for seriestype here
-              //Get the value associated with the entry
+              }
+              else if (seriesType == 'airport')
+              {
+                   var val = 1;
+              }
 
               //Add it to the appropriate array slot
               avgArray[yearInMonths + months] += val;
+
+              if (entry[1][seriesType] == '-') {
+                  entry[1][seriesType] = "No Series"
+              }
 
               //If the series name isn't in the my scope variable add it!
               if (!listOfSeriesNames.includes(entry[1][seriesType]))
@@ -75,12 +85,11 @@ angular.module('graph')
         })
       })
 
-
       //Calculate averages once I have all of the series names in rawData
       avgArray.forEach(function(total, totalIndex) {
         avgArray[totalIndex] = total / listOfSeriesNames.length;
       });
-
+      
       //Push it! No need to do timeWindow. This only runs by itself on start
       data.push(avgArray);
 
@@ -116,16 +125,14 @@ angular.module('graph')
       })
     }
 
-    //Add one or more series to the series and data variables
+    //Add one or more series to the graph
     function updateSeries(selectedSeries, seriesType, fromDate, toDate) {
       //Empty series and data scope variables
-      console.log(fromDate);
-      console.log(toDate);
       series = [];
       data = [];
 
       //Initialize average
-      findAverage(rawData, seriesType);
+      findAverage(seriesType);
 
       //For each series selected in the select multiple box.
       //Check for undefined
@@ -143,12 +150,20 @@ angular.module('graph')
             //filter array sum add the object value to the appropraite array slot
             for (var i = 2010; i < 2014; i++) {
               for (var j = 0; j < 12; j++) {
+
                 var filter = rawData[i][j].filter(function(entry){
                     return entry[seriesType] == mySeries.trim();
                 })
-                filter.forEach(function(obj, index) {
-                  inputArray[(i % 10 * 12) + j] += obj.value;
-                })
+
+                if (seriesType == 'airline') {
+                  filter.forEach(function(obj, index) {
+                    inputArray[(i % 10 * 12) + j] += obj.value;
+                  })
+                }
+
+                else if (seriesType == 'airport') {
+                    inputArray[(i % 10 * 12) + j] += filter.length;
+                }
               }
             }
 
@@ -157,40 +172,70 @@ angular.module('graph')
           })
         }
 
-      //Calculate the total value loss
-      // calcTotalValLoss();
-
       //Run timeWindow
       timeWindow(fromDate, toDate);
+
+      //Calculate the total value loss
+      calcTotal();
     }
 
-    function addClaim(claimInputDate, inputClaim, inputCost) {
+    //Add a claim
+    function addClaim(claimInputDate, inputClaim, inputCost, seriesType) {
 
-      console.log(claimInputDate);
       var month = claimInputDate.getMonth();
       var year = claimInputDate.getFullYear();
 
-      var pushObj = {
-        airline: inputClaim.trim(),
-        value: inputCost,
-        airport: "N/A"
+      if (seriesType == 'airline') {
+        var pushObj = {
+          airline: inputClaim.trim(),
+          value: inputCost,
+          airport: "N/A"
+        }
+
+        inputCost = '$' + inputCost;
+      }
+      else if (seriesType == 'airport') {
+        var pushObj = {
+          airline: "N/A",
+          value: 0,
+          airport: inputClaim.trim()
+        }
+
+        inputCost = "";
       }
 
-      // lastClaimEntered = inputClaim.trim() + " " + month + "/" + year + " $" + inputCost;
+      lastClaimEntered = inputClaim.trim() + " " + month + "/" + year + inputCost;
 
       rawData[year][month].push(pushObj)
 
     }
 
+    //Calculate the total number of claims or total value for a given time period
+    function calcTotal() {
 
+        var totalValLoss = 0;
+
+        data.forEach(function(data, index) {
+
+            //Don't add the averages! They'll be in the first index
+            if (index !== 0)
+            {
+                totalValLoss += data.reduce((total, amount) => total + amount);
+            }
+        })
+
+        return totalValLoss = totalValLoss.toFixed(2);
+      }
 
     return {
       getLabels: getLabels,
       getSeries: getSeries,
       getListOfSeriesNames: getListOfSeriesNames,
       getData: getData,
+      getLastClaimEntered: getLastClaimEntered,
       findAverage: findAverage,
       updateSeries: updateSeries,
-      addClaim: addClaim
+      addClaim: addClaim,
+      calcTotal: calcTotal
     }
 }])

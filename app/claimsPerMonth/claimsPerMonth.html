@@ -20,13 +20,13 @@
         <label for = "filterAirline">Search:</label>
         <input type = "text" ng-model = "filterSeries" name = "filterAirline">
         <select id = "filterSelector" multiple ng-model = "selectedSeries">
-          <option ng-click = "addSeries()" ng-repeat = "airline in listOfSeriesNames | orderBy: airline | filter: filterSeries"> {{ airline }} </option>
+          <option ng-click = "updateSeries()" ng-repeat = "airline in listOfSeriesNames | orderBy: airline | filter: filterSeries"> {{ airline }} </option>
         </select>
         <hr>
         <label for "FromMonth">From:</label>
-        <input name = "fromMonth" type = "month" ng-mouseleave = "addSeries()"ng-model = "fromMonth" min = "2010-01" max = "2013-12">
+        <input name = "fromMonth" type = "month" ng-mouseleave = "updateSeries()"ng-model = "fromDate" min = "2010-01" max = "2013-12">
         <label for "airlineToMonth">To:</label>
-        <input name = "toMonth" type = "month" ng-mouseleave = "addSeries()" ng-model = "toMonth" min = "2010-01" max = "2013-12">
+        <input name = "toMonth" type = "month" ng-mouseleave = "updateSeries()" ng-model = "toDate" min = "2010-01" max = "2013-12">
     </fieldset>
 
     <fieldset class = "thirdSet">
@@ -34,11 +34,11 @@
         <label for = "filterAirportSelector">Search:</label>
         <input type = "text" ng-model = "filterClaimSelector" name = "filterAirportSelector">
         <label for = "airportSelector">Airport</label>
-        <select id = "airportSelector" ng-model = "inputAirport">
+        <select id = "airportSelector" ng-model = "inputClaim">
           <option ng-repeat = "airport in listOfSeriesNames | orderBy: airport | filter: filterClaimSelector">{{ airport }}</option>
         </select>
         <label for "airportInputDate">Date:</label>
         <input ng-model = "claimInputDate" name = "airportInputDate" type = "month" min = "2010-01" max = "2013-12">
-        <button class = "formSubmit" type = "button" ng-click = "add()">Submit</button>
+        <button class = "formSubmit" type = "button" ng-click = "addClaim()">Submit</button>
     </fieldset>
 </div>
