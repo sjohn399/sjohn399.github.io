@@ -6,7 +6,7 @@ angular.module('claimsPerMonth')
         controller: ('claimsPerMonth', ['$scope', '$window', '$timeout', 'graph', function($scope, $window, $timeout, graph) {
 
             //Bug - When you change the toDate (an the toDate only) and change it
-            //back to December it reads as undefined. Very confusing
+            //back to December it reads as undefined.
             $scope.fromDate = new Date('January 1, 2010 03:24:00'); //From date on filter
             $scope.toDate = new Date('December 1, 2013 03:24:00'); //To date on filter
             $scope.seriesType = 'airport'; //Signifies series type (airline or airport)
