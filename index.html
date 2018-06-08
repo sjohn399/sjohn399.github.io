@@ -1,35 +1,30 @@
 <html ng-app = 'tsa'>
-  <head>
-    <!-- Script sourcing for angular -->
-  	<script src = "https://ajax.googleapis.com/ajax/libs/angularjs/1.5.9/angular.js"></script>
-    <script src = "https://ajax.googleapis.com/ajax/libs/angularjs/1.5.9/angular-route.js"></script>
-    <script src = "https://ajax.googleapis.com/ajax/libs/angularjs/1.5.9/angular-resource.js"></script>
-    <script src = "https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.min.js"></script>
-    <script src = "plugins/angular-chart.min.js"></script>
-    <script src = "plugins/papaparse.min.js"></script>
-
-    <script src = "app.module.js"></script>
-    <script src = "app.config.js"></script>
-
-    <script src = "app/claimsPerMonth/claimsPerMonth.module.js"></script>
-    <script src = "app/claimsPerMonth/claimsPerMonth.component.js"></script>
-
-    <script src = "app/valueLossPerMonth/valueLossPerMonth.module.js"></script>
-    <script src = "app/valueLossPerMonth/valueLossPerMonth.component.js"></script>
-
-    <script src = "app/utils/graph/graph.module.js"></script>
-    <script src = "app/utils/graph/graph.service.js"></script>
-
-    <script src = "app/utils/fileReader/fileReader.module.js"></script>
-    <script src = "app/utils/fileReader/fileReader.service.js"></script>
-
-    <link rel="stylesheet" href = "tsaproj.css">
-  </head>
-  <body>
-    <div id = "toggleButtons">
-  		<button type = "button" onclick = "location.href='#cpm'">Average Claims Per Month</button>
-  		<button type = "button" onclick = "location.href='#vlpm'">Value Loss Per Month</button>
-  	</div>
-    <div ng-view></div>
-  </body>
+   <head>
+      <link rel="stylesheet" href = "tsaproj.css">
+   </head>
+   <body>
+      <div id = "toggleButtons">
+         <button type = "button" onclick = "location.href='#cpm'">Average Claims Per Month</button>
+         <button type = "button" onclick = "location.href='#vlpm'">Value Loss Per Month</button>
+      </div>
+      <div ng-view></div>
+      <div ng-cloak>
+         <script src = "https://ajax.googleapis.com/ajax/libs/angularjs/1.5.9/angular.js"></script>
+         <script src = "https://ajax.googleapis.com/ajax/libs/angularjs/1.5.9/angular-route.js"></script>
+         <script src = "https://ajax.googleapis.com/ajax/libs/angularjs/1.5.9/angular-resource.js"></script>
+         <script src = "https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.min.js"></script>
+         <script src = "plugins/angular-chart.min.js"></script>
+         <script src = "plugins/papaparse.min.js"></script>
+         <script src = "app.module.js"></script>
+         <script src = "app.config.js"></script>
+         <script src = "app/claimsPerMonth/claimsPerMonth.module.js"></script>
+         <script src = "app/claimsPerMonth/claimsPerMonth.component.js"></script>
+         <script src = "app/valueLossPerMonth/valueLossPerMonth.module.js"></script>
+         <script src = "app/valueLossPerMonth/valueLossPerMonth.component.js"></script>
+         <script src = "app/utils/graph/graph.module.js"></script>
+         <script src = "app/utils/graph/graph.service.js"></script>
+         <script src = "app/utils/fileReader/fileReader.module.js"></script>
+         <script src = "app/utils/fileReader/fileReader.service.js"></script>
+      </div>
+   </body>
 </html>

@@ -1,48 +1,51 @@
 <div>
-    <canvas id = "vlpm" class = "chart chart-line" chart-data = "data"
-    chart-labels = "labels" chart-series = "series"
-    chart-options = "options"></canvas>
-
-    <fieldset class = "firstSet">
-        <legend>S T A T S</legend>
-        <ul>
-          <li class = "title">Last Claim Entered</li>
-          <li>{{ lastClaimEntered }}</li>
-          <li class = "title">Total Number of Airlines</li>
-          <li>{{ listOfSeriesNames.length }}</li>
-          <li class = "title">Total Value Loss</li>
-          <li>{{ totalValLoss }}</li>
-        </ul>
-      </fieldset>
-
-      <fieldset class = "secondSet">
+   <canvas id = "vlpm" class = "chart chart-line" chart-data = "data"
+      chart-labels = "labels" chart-series = "series"
+      chart-options = "options" chart-colors = "colors"></canvas>
+   <fieldset class = "firstSet">
+      <legend>S T A T S</legend>
+      <ul>
+         <li class = "title">Last Claim Entered</li>
+         <li>{{ lastClaimEntered }}</li>
+         <li class = "title">Total Number of Airlines</li>
+         <li>{{ listOfAirlines.length }}</li>
+         <li class = "title">Total Value Loss</li>
+         <li>${{ totalValLoss }}</li>
+      </ul>
+   </fieldset>
+   <fieldset class = "secondSet">
       <legend>F I L T E R</legend>
-          <label for = "filterAirline">Search:</label>
-          <input type = "text" ng-model = "filterSeries" name = "filterAirline">
-          <select id = "filterSelector" multiple ng-model = "selectedSeries">
-            <option ng-click = "updateSeries()" ng-repeat = "airline in listOfSeriesNames | orderBy: airline | filter: filterSeries"> {{ airline }} </option>
-          </select>
-          <hr>
-          <label for "FromMonth">From:</label>
-          <input name = "fromMonth" type = "month" ng-mouseleave = "updateSeries()" ng-model = "fromDate" min = "2010-01" max = "2013-12">
-          <label for "airlineToMonth">To:</label>
-          <input name = "toMonth" type = "month" ng-mouseleave = "updateSeries()" ng-model = "toDate" min = "2010-01" max = "2013-12">
-      </fieldset>
-
-      <fieldset class = "thirdSet">
-        <legend>NEW C L A I M</legend>
-        <label for = "filterAirlineSelector">Search:</label>
-        <input type = "text" ng-model = "filterClaimSeries" name = "filterAirlineSelector">
-        <label for = "claimSelector">Airline:</label>
-        <select name = "claimSelector" ng-model = "inputClaim">
-          <option ng-repeat = "airline in listOfSeriesNames | orderBy: airline | filter: filterClaimSeries">{{ airline }}</option>
-        </select>
-        <label for = "claimInputDate">Date:</label>
-        <input ng-model = "claimInputDate" name = "claimInputDate" type = "month" min = "2010-01" max = "2013-12">
-        <label for = "cost">Cost ($):</label>
-        <input name = "cost" ng-model = "inputCost" type = "number">
-        <button class = "formSubmit" type = "button" ng-click = "addClaim()">SUBMIT</button>
-      </fieldset>
-
-      {{ time }}
+      <label for = "filterAirline">Search:</label>
+      <input type = "text" ng-model = "filterSeries" name = "filterAirline">
+      <select id = "filterSelector" multiple ng-model = "selectedSeries">
+         <option ng-click = "updateSeries()" ng-repeat = "airline in listOfAirlines | orderBy: airline | filter: filterSeries"> {{ airline }} </option>
+      </select>
+      <hr>
+      <label for "FromMonth">From:</label>
+      <input name = "fromMonth" type = "month" ng-mouseleave = "updateSeries()" ng-model = "fromDate" min = "2010-01" max = "2013-12">
+      <label for "airlineToMonth">To:</label>
+      <input name = "toMonth" type = "month" ng-mouseleave = "updateSeries()" ng-model = "toDate" min = "2010-01" max = "2013-12">
+   </fieldset>
+   <fieldset class = "thirdSet">
+      <legend>NEW C L A I M</legend>
+      <label for = "filterAirlineSelector">Search:</label>
+      <input type = "text" ng-model = "filterClaimSeries" name = "filterAirlineSelector">
+      <label for = "claimSelector">Airline:</label>
+      <select name = "claimSelector" ng-model = "airlineClaim">
+         <option ng-repeat = "airline in listOfAirlines | orderBy: airline | filter: filterClaimSeries">{{ airline }}</option>
+      </select>
+      <hr>
+      <label for = "filterAirportSelector">Search:</label>
+      <input type = "text" ng-model = "filterClaimSelector" name = "filterAirportSelector">
+      <label for = "airportSelector">Airport</label>
+      <select id = "airportSelector" ng-model = "airportClaim">
+         <option ng-repeat = "airport in listOfAirports | orderBy: airport | filter: filterClaimSelector">{{ airport }}</option>
+      </select>
+      <hr>
+      <label for = "claimInputDate">Date:</label>
+      <input ng-model = "claimInputDate" name = "claimInputDate" type = "month" min = "2010-01" max = "2013-12">
+      <label for = "cost">Cost ($):</label>
+      <input name = "cost" ng-model = "inputCost" type = "number">
+      <button class = "formSubmit" type = "button" ng-click = "addClaim()">SUBMIT</button>
+   </fieldset>
 </div>
