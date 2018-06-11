@@ -220,7 +220,6 @@ angular.module('graph')
 
         //Calculate the total number of claims or total value lost
         function calcTotal(seriesType) {
-            console.log(seriesType)
             var totalValLoss = 0;
 
             data.forEach(function(data, index) {
