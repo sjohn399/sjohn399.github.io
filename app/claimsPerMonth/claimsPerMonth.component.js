@@ -62,7 +62,7 @@ angular.module('claimsPerMonth')
             $timeout(function() {
                 graph.findAverage($scope.seriesType)
                 $scope.update();
-            }, 200)
+            }, 300)
 
             //Update function
             $scope.updateSeries = function() {
